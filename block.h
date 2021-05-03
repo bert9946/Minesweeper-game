@@ -8,5 +8,5 @@ public:
 private:
 	bool isMine;
 	bool isRealed;
-}
+};
 #endif
