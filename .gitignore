@@ -1,2 +1,3 @@
-*.vscode
-*.cout
+.vscode
+*.out
+.DS_Store
