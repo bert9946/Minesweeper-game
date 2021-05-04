@@ -6,10 +6,8 @@ public:
 	Game();
 	Game(int);
 	void printTable();
-	void createTable();
+	void createMineTable();
 
 private:
-	int tableSize;
-	int numberOfMine;
 };
 #endif

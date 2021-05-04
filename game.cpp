@@ -1,32 +1,30 @@
 #include "game.h"
+#include <ctime>
+#include <cstdlib>
 
+const int tableSize = 9;
+const int numberOfSize = 10;
 Game::Game()
 {
-	tableSize = 9;
-	numberOfMine = 40;
 }
 
-Game::Game(int gameMode)
+void Game::createMineTable()
 {
-	int tableSize;
-	switch (gameMode)
+	int **mine = new int *[tableSize];
+	for (int i = 0; i < tableSize; i++)
 	{
-	case 2:
-		tableSize = 16;
-		numberOfMine = 40;
-		break;
-	case 3:
-		tableSize = 24;
-		numberOfMine = 99;
-		break;
-	case 1:
-	default:
-		tableSize = 9;
-		numberOfMine = 10;
-		break;
+		mine[i] = new int[tableSize];
 	}
-}
+	srand(static_cast<unsigned int>(time(0)));
 
-void Game::createTable()
-{
+	for (int i = 0; i < numberOfSize; i++)
+	{
+		mine[rand() % (tableSize * tableSize)];
+	}
+
+	for (int i = 0; i < tableSize; i++)
+		for (int j = 0; j < tableSize; j++)
+		{
+			mine[i][j];
+		}
 }
