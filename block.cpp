@@ -1,7 +1,7 @@
 #include "block.h"
 Block::Block()
 {
-	this->isRealed = false;
+	number = 0;
 }
 void Block::setNumber(int number)
 {
@@ -11,12 +11,13 @@ void Block::numberIncrease()
 {
 	this->number++;
 }
+
 int Block::getNumber() const
 {
 	return number;
 }
 
-bool Block::getIsRealed() const
+bool Block::getIsRevealed() const
 {
-	return isRealed;
+	return isRevealed;
 }

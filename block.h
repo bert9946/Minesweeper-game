@@ -6,11 +6,11 @@ public:
 	Block();
 	void setNumber(int);
 	int getNumber() const;
+	bool getIsRevealed() const;
 	void numberIncrease();
-	bool getIsRealed() const;
 
 private:
-	int number;
-	bool isRealed;
+	int number; //number of surrounding mines. -1 means this is mine.
+	bool isRevealed;
 };
 #endif

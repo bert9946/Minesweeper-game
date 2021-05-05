@@ -1,7 +1,6 @@
 #include <iostream>
-#include <ctime>
+#include <random>
 #include <iomanip>
-#include <cstdlib>
 #include "block.h"
 using namespace std;
 
@@ -9,47 +8,63 @@ const unsigned int numberOfMines = 10;
 const unsigned int tableSize = 9;
 Block gameBoard[tableSize][tableSize];
 
-void plantMines(Block, const int);
+void plantMines(Block[][tableSize]);
+void plantNumbers(Block[][tableSize]);
 void printTable(Block[][tableSize]);
-void initializeTable(Block[][tableSize]);
+
 int main()
 {
-	initializeTable(gameBoard);
+	plantMines(gameBoard);
+	plantNumbers(gameBoard);
 	printTable(gameBoard);
 	return 0;
 }
-void initializeTable(Block board[][tableSize])
+
+void plantMines(Block board[][tableSize])
 {
-	for (int i = 0; i < tableSize; i++)
+
+	random_device rd;
+	mt19937 generator(rd());
+	uniform_int_distribution<int> unif(0, 80);
+
+	int n = 0;
+
+	while (n < numberOfMines)
 	{
-		for (int j = 0; j < tableSize; j++)
+		int r = unif(generator);
+		int c = r % tableSize;
+		r /= 9;
+		// cout << r << ' ' << c << endl;
+		if (board[r][c].getNumber() != -1)
 		{
-			board[i][j].setNumber(0);
+			board[r][c].setNumber(-1); //plant mine.
+			n++;
 		}
+		else
+			continue;
 	}
 }
 
-void plantMines(Block board[][tableSize], const int size)
+void plantNumbers(Block board[][tableSize])
 {
-	srand(static_cast<unsigned int>(time(0)));
-
-	//initialize elements in gameBoard.
-
-	//plant mines and numbers.
-	for (int counter = 0; counter < numberOfMines; counter++)
+	int r, c, i, j;
+	for (r = 0; r < tableSize; r++)
 	{
-		int r = rand() % tableSize;
-		int c = rand() % tableSize;
-
-		board[r][c].setNumber(-1); //plant mine.
-
-		//plant number.
-		for (int i = r; i < 3; i++)
+		for (c = 0; c < tableSize; c++)
 		{
-			for (int j = c; j < 3; j++)
+
+			if (board[r][c].getNumber() == -1) //if this is a mine.
 			{
-				if (board[i][j].getNumber() != -1)
-					board[i][j].numberIncrease();
+
+				for (i = r - 1; i < r + 1; i++)
+				{
+					for (j = c - 1; j < c + 1; j++)
+					{
+						if (i >= 0 && i <= tableSize && j >= 0 && j <= tableSize && !(i == r && j == c) &&
+							board[i][j].getNumber() != -1)
+							board[i][j].numberIncrease();
+					}
+				}
 			}
 		}
 	}
@@ -57,21 +72,27 @@ void plantMines(Block board[][tableSize], const int size)
 
 void printTable(Block board[][tableSize])
 {
-	cout << setw(2) << fixed;
-	for (int i = 0; i < tableSize + 1; i++)
+	//print column index(abc...).
+	for (int i = 0; i < tableSize; i++)
 	{
-		if (i != 0)
-			cout << setw(2) << fixed << i;
+		if (i == 0)
+			cout << "  ";
+		cout << setw(2) << fixed << char(i + 97);
+	}
+	cout << "\n\n";
+
+	for (int i = 0; i < tableSize; i++)
+	{
 		for (int j = 0; j < tableSize; j++)
 		{
-			if (i == 0)
-			{
-				if (j == 0)
-					cout << "  ";
-				cout << setw(2) << fixed << char(j + 97);
-			}
+			//print row index(123...).
+			if (j == 0)
+				cout << tableSize - i << " ";
+
+			if (board[i][j].getNumber() == -1)
+				cout << setw(2) << fixed << '*';
 			else
-				cout << setw(2) << fixed << '_';
+				cout << setw(2) << fixed << board[i][j].getNumber();
 		}
 		cout << endl;
 	}
