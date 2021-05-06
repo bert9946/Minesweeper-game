@@ -33,7 +33,7 @@ void plantMines(Block board[][tableSize])
 	{
 		int r = unif(generator);
 		int c = r % tableSize;
-		r /= 9;
+		r /= tableSize;
 		// cout << r << ' ' << c << endl;
 		if (board[r][c].getNumber() != -1)
 		{
