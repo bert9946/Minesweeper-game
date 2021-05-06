@@ -56,9 +56,9 @@ void plantNumbers(Block board[][tableSize])
 			if (board[r][c].getNumber() == -1) //if this is a mine.
 			{
 
-				for (i = r - 1; i < r + 1; i++)
+				for (i = r - 1; i <= r + 1; i++)
 				{
-					for (j = c - 1; j < c + 1; j++)
+					for (j = c - 1; j <= c + 1; j++)
 					{
 						if (i >= 0 && i <= tableSize && j >= 0 && j <= tableSize && !(i == r && j == c) &&
 							board[i][j].getNumber() != -1)
