@@ -21,3 +21,8 @@ bool Block::getIsRevealed() const
 {
 	return isRevealed;
 }
+
+bool Block::IsMine() const
+{
+	return (this->getNumber() == -1);
+}
