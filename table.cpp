@@ -67,7 +67,7 @@ void Table::plantNumbers()
 				{
 					for (j = c - 1; j <= c + 1; j++)
 					{
-						if (isValid(i, j) && !(pArray[i][j].IsMine()))
+						if (isValid(i, j) && !(pArray[i][j].isMine()))
 							pArray[i][j].numberIncrease();
 					}
 				}
