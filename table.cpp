@@ -7,14 +7,32 @@ using namespace std;
 
 Table::Table()
 {
+	this->tableSize = 9;
+	this->numberOfMines = 10;
+
+	pArray = new Block *[maxTableSize];
+
+	for (int i = 0; i < maxTableSize; i++)
+		pArray[i] = new Block[maxTableSize];
+
+	this->plantMines();
+	this->plantNumbers();
 }
 
-void plantMines(Block board[][tableSize])
+Table::~Table()
+{
+
+	for (int i = 0; i < maxTableSize; i++)
+		delete[] pArray[i];
+	delete[] pArray;
+}
+
+void Table::plantMines()
 {
 
 	random_device rd;
 	mt19937 generator(rd());
-	uniform_int_distribution<int> unif(0, 80);
+	uniform_int_distribution<int> unif(0, tableSize * tableSize - 1);
 
 	int n = 0;
 
@@ -24,9 +42,9 @@ void plantMines(Block board[][tableSize])
 		int c = r % tableSize;
 		r /= tableSize;
 		// cout << r << ' ' << c << endl;
-		if (board[r][c].getNumber() != -1)
+		if (pArray[r][c].getNumber() != -1)
 		{
-			board[r][c].setNumber(-1); //plant mine.
+			pArray[r][c].setNumber(-1); //plant mine.
 			n++;
 		}
 		else
@@ -34,7 +52,7 @@ void plantMines(Block board[][tableSize])
 	}
 }
 
-void plantNumbers(Block board[][tableSize])
+void Table::plantNumbers()
 {
 	int r, c, i, j;
 	for (r = 0; r < tableSize; r++)
@@ -42,16 +60,15 @@ void plantNumbers(Block board[][tableSize])
 		for (c = 0; c < tableSize; c++)
 		{
 
-			if (board[r][c].getNumber() == -1) //if this is a mine.
+			if (pArray[r][c].getNumber() == -1) //if this is a mine.
 			{
 
 				for (i = r - 1; i <= r + 1; i++)
 				{
 					for (j = c - 1; j <= c + 1; j++)
 					{
-						if (i >= 0 && i <= tableSize && j >= 0 && j <= tableSize && !(i == r && j == c) &&
-							board[i][j].getNumber() != -1)
-							board[i][j].numberIncrease();
+						if (isValid(i, j) && !(pArray[i][j].IsMine()))
+							pArray[i][j].numberIncrease();
 					}
 				}
 			}
@@ -59,13 +76,13 @@ void plantNumbers(Block board[][tableSize])
 	}
 }
 
-void printTable(Block board[][tableSize])
+void Table::printTable() const
 {
 	//print column index(abc...).
 	for (int i = 0; i < tableSize; i++)
 	{
 		if (i == 0)
-			cout << "  ";
+			cout << "    ";
 		cout << setw(2) << fixed << char(i + 97);
 	}
 	cout << "\n\n";
@@ -76,13 +93,18 @@ void printTable(Block board[][tableSize])
 		{
 			//print row index(123...).
 			if (j == 0)
-				cout << tableSize - i << " ";
+				cout << setw(3) << i + 1 << " ";
 
-			if (board[i][j].getNumber() == -1)
+			if (pArray[i][j].getNumber() == -1)
 				cout << setw(2) << fixed << '*';
 			else
-				cout << setw(2) << fixed << board[i][j].getNumber();
+				cout << setw(2) << fixed << pArray[i][j].getNumber();
 		}
 		cout << endl;
 	}
+}
+
+bool Table::isValid(int i, int j) const
+{
+	return (i >= 0 && i <= tableSize && j >= 0 && j <= tableSize);
 }
