@@ -1,3 +1,4 @@
 .vscode
 *.out
 .DS_Store
+main
