@@ -8,6 +8,7 @@ public:
 	int getNumber() const;
 	bool getIsRevealed() const;
 	void numberIncrease();
+	bool isMine() const;
 
 private:
 	int number; //number of surrounding mines. -1 means this is mine.

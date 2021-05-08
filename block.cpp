@@ -1,12 +1,14 @@
 #include "block.h"
 Block::Block()
 {
-	number = 0;
+	this->number = 0;
 }
+
 void Block::setNumber(int number)
 {
 	this->number = number;
 }
+
 void Block::numberIncrease()
 {
 	this->number++;
@@ -20,4 +22,9 @@ int Block::getNumber() const
 bool Block::getIsRevealed() const
 {
 	return isRevealed;
+}
+
+bool Block::isMine() const
+{
+	return (this->number == -1);
 }
