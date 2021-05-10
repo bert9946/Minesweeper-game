@@ -2,7 +2,7 @@
 #define TABLE_H
 #include "block.h"
 
-const int maxTableSize = 24;
+const int MAXTABLESIZE = 21;
 class Table
 {
 private:
@@ -12,9 +12,12 @@ private:
 	void plantNumbers();
 	Block **pArray;
 	bool isValid(int, int) const;
+	void newArray();
 
 public:
 	Table();
+	Table(int);
+	Table(int tableSize, int numberOfMines);
 	~Table();
 	void printTable() const;
 };

@@ -1,11 +1,12 @@
 #include <iostream>
-#include "table.h"
+#include "game.h"
 using namespace std;
 
 int main()
 {
-	Table table;
-	table.printTable();
+
+	Game game;
+	game.start();
 
 	return 0;
 }
