@@ -9,6 +9,7 @@ private:
 	int tableSize;
 	int numberOfMines;
 	void plantMines();
+	void plantOneMine();
 	void plantNumbers();
 	Block **pArray;
 	bool isValid(int, int) const;

@@ -16,5 +16,6 @@ private:
     int gameMode;
     void chooseGameMode();
     void action();
+    int numberOfMoves;
 };
 #endif

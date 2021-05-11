@@ -4,6 +4,7 @@ using namespace std;
 
 Game::Game()
 {
+    numberOfMoves = 0;
     isGameOver = false;
 }
 
@@ -93,16 +94,23 @@ void Game::action()
                     {
                         this->pTable->chainReveal(i, j);
                     }
-                    else
+                    else //This is mine.
                     {
-                        this->gameOver();
-                        this->pTable->revealAllMines();
+                        if (numberOfMoves == 0) // First step mercy.
+                        {
+                        }
+                        else
+                        {
+                            this->gameOver();
+                            this->pTable->revealAllMines();
+                        }
                     }
                 }
                 else if (move == 'f') //Flag.
                 {
                     this->pTable->pArray[i][j].flag();
                 }
+                numberOfMoves++;
             }
         }
 }

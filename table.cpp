@@ -66,26 +66,8 @@ Table::~Table()
 void Table::plantMines()
 {
 
-	random_device rd;
-	mt19937 generator(rd());
-	uniform_int_distribution<int> unif(0, tableSize * tableSize - 1);
-
-	int n = 0;
-
-	while (n < numberOfMines)
-	{
-		int r = unif(generator);
-		int c = r % tableSize;
-		r /= tableSize;
-		// cout << r << ' ' << c << endl;
-		if (pArray[r][c].getNumber() != -1)
-		{
-			pArray[r][c].setNumber(-1); //plant mine.
-			n++;
-		}
-		else
-			continue;
-	}
+	for (int i = 0; i < numberOfMines; i++)
+		this->plantOneMine();
 }
 
 void Table::plantNumbers()
@@ -146,7 +128,7 @@ void Table::printTable() const
 				if (pArray[i][j].getIsFlagged())
 					cout << setw(2) << fixed << '$';
 				else
-					cout << setw(2) << fixed << '#';
+					cout << setw(2) << fixed << '-';
 			}
 
 			else
@@ -195,5 +177,27 @@ void Table::chainReveal(int i, int j)
 					}
 			}
 		}
+	}
+}
+
+void Table::plantOneMine()
+{
+	random_device rd;
+	mt19937 generator(rd());
+	uniform_int_distribution<int> unif(0, tableSize * tableSize - 1);
+
+	int n = 0;
+	while (n < 1)
+	{
+		int r = unif(generator);
+		int c = r % tableSize;
+		r /= tableSize;
+		if (!pArray[r][c].isMine())
+		{
+			pArray[r][c].setNumber(-1); //plant mine.
+			n++;
+		}
+		else
+			continue;
 	}
 }

@@ -43,5 +43,8 @@ void Block::reveal()
 
 void Block::flag()
 {
-	this->isFlagged = true;
+	if (!this->isFlagged)
+		this->isFlagged = true;
+	else
+		this->isFlagged = false;
 }
