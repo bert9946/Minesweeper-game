@@ -11,8 +11,10 @@ public:
 private:
     Table *pTable;
     bool isGameOver;
+    void gameOver();
     void printInitialMessage();
     int gameMode;
     void chooseGameMode();
+    void action();
 };
 #endif

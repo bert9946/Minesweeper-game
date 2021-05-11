@@ -132,24 +132,30 @@ void Table::printTable() const
 			if (j == 0)
 				cout << setw(3) << i + 1 << " ";
 
+			/*
 			//for testing.
 			if (pArray[i][j].getNumber() == -1)
 				cout << setw(2) << fixed << '*';
 			else
 				cout << setw(2) << fixed << pArray[i][j].getNumber();
+			*/
 
-			/* for implementation.
-			if (!pArray[i][j].getIsRevealed())
-				cout << setw(2) << fixed << '#';
+			// for implementation.
+			if (!(pArray[i][j].getIsRevealed()))
+			{
+				if (pArray[i][j].getIsFlagged())
+					cout << setw(2) << fixed << '$';
+				else
+					cout << setw(2) << fixed << '#';
+			}
 
 			else
 			{
-				if (pArray[i][j].getNumber() == -1)
-					cout << setw(2) << fixed << '*';
+				if (pArray[i][j].isMine())
+					cout << setw(2) << fixed << '@';
 				else
 					cout << setw(2) << fixed << pArray[i][j].getNumber();
 			}
-			*/
 		}
 		cout << endl;
 	}
@@ -159,4 +165,35 @@ void Table::printTable() const
 bool Table::isValid(int i, int j) const
 {
 	return (i >= 0 && i <= tableSize && j >= 0 && j <= tableSize);
+}
+
+void Table::revealAllMines()
+{
+	for (int i = 0; i < tableSize; i++)
+	{
+		for (int j = 0; j < tableSize; j++)
+		{
+			if (pArray[i][j].isMine())
+				pArray[i][j].reveal();
+		}
+	}
+}
+void Table::chainReveal(int i, int j)
+{
+	this->pArray[i][j].reveal();
+	if (this->pArray[i][j].getNumber() == 0)
+	{
+		for (int x = i - 1; x <= i + 1; x++)
+		{
+			for (int y = j - 1; y <= j + 1; y++)
+			{
+				if (this->isValid(x, y) && !(x == i && y == j))
+					if (!this->pArray[x][y].getIsRevealed())
+					{
+						this->pArray[x][y].reveal();
+						this->chainReveal(x, y);
+					}
+			}
+		}
+	}
 }

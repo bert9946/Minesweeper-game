@@ -13,6 +13,7 @@ private:
 	Block **pArray;
 	bool isValid(int, int) const;
 	void newArray();
+	void chainReveal(int, int);
 
 public:
 	Table();
@@ -20,5 +21,7 @@ public:
 	Table(int tableSize, int numberOfMines);
 	~Table();
 	void printTable() const;
+	void revealAllMines();
+	friend class Game;
 };
 #endif

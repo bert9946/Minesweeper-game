@@ -11,7 +11,14 @@ void Game::start()
 {
     this->printInitialMessage();
     this->chooseGameMode();
-    pTable->printTable();
+    this->pTable->printTable();
+    while (!isGameOver)
+    {
+        this->action();
+        if (this->isGameOver)
+            cout << "GAME OVER!";
+        this->pTable->printTable();
+    }
 }
 
 void Game::printInitialMessage()
@@ -42,7 +49,7 @@ void Game::chooseGameMode()
 
         do
         {
-            cout << "Enter table size: (9 ~ 20)" << endl;
+            cout << "enter table size: (9 ~ 20)" << endl;
             cin >> tableSize;
         } while (!(tableSize >= 9 && tableSize <= 20));
 
@@ -58,4 +65,49 @@ void Game::chooseGameMode()
     //game mode 1.
     else
         pTable = new Table();
+}
+
+void Game::action()
+{
+    char move;
+
+    char alphabat;
+    int number;
+
+    cout << "Enter (MOVE, ALPHABAT, NUMBER)" << endl;
+    cout << "(MOVE = [f], Flag or [e], Explore)" << endl;
+
+    cin >> move >> alphabat >> number;
+
+    int i = number - 1;
+    int j = int(alphabat) - 97;
+
+    if ((move == 'e' || move == 'f'))
+        if (this->pTable->isValid(i, j))
+        {
+            if (!this->pTable->pArray[i][j].getIsRevealed())
+            {
+                if (move == 'e') //Explore.
+                {
+                    if (!this->pTable->pArray[i][j].isMine())
+                    {
+                        this->pTable->chainReveal(i, j);
+                    }
+                    else
+                    {
+                        this->gameOver();
+                        this->pTable->revealAllMines();
+                    }
+                }
+                else if (move == 'f') //Flag.
+                {
+                    this->pTable->pArray[i][j].flag();
+                }
+            }
+        }
+}
+
+void Game::gameOver()
+{
+    this->isGameOver = true;
 }
