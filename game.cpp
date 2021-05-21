@@ -17,18 +17,18 @@ void Game::start()
     {
         this->action();
         if (this->isGameOver)
-            cout << "GAME OVER!";
+            cout << "遊戲已結束!!";
         this->pTable->printTable();
     }
 }
 
 void Game::printInitialMessage()
 {
-    cout << "Choose Game Mode:" << endl;
-    cout << "1 for Beginner" << endl;
-    cout << "2 for Intermediate" << endl;
-    cout << "3 for Advanced" << endl;
-    cout << "4 for Customization" << endl;
+    cout << "選擇你所要玩的模式:" << endl;//選擇難度
+    cout << "1. 初階" << endl;//難度一
+    cout << "2. 中階" << endl;//難度二
+    cout << "3. 困難" << endl;//難度三
+    cout << "4. 自訂遊戲" << endl;//客製化遊戲
 }
 
 void Game::chooseGameMode()
@@ -37,11 +37,11 @@ void Game::chooseGameMode()
     cin >> gameMode;
     this->gameMode = gameMode;
 
-    //game mode 1, 2, 3.
+    //遊戲模式1、2、3、4
     if (this->gameMode == 1 || this->gameMode == 2 || this->gameMode == 3)
         pTable = new Table(this->gameMode);
 
-    //game mode 4.
+    //客製難度
     else if (this->gameMode == 4)
     {
         int tableSize, numberOfMines;
@@ -63,9 +63,10 @@ void Game::chooseGameMode()
         pTable = new Table(tableSize, numberOfMines);
     }
 
-    //game mode 1.
+    //選擇其他的話就是預設的模式.
     else
         pTable = new Table();
+
 }
 
 void Game::action()
@@ -75,8 +76,8 @@ void Game::action()
     char alphabat;
     int number;
 
-    cout << "Enter (MOVE, ALPHABAT, NUMBER)" << endl;
-    cout << "(MOVE = [f], Flag or [e], Explore)" << endl;
+    cout << "輸入:(動作, 座標的字母, 座標的數字)" << endl;//輸入動作、字母、數字
+    cout << "(動作 = [f]做標記 or [e]動作踩)" << endl;//f是做標記，e是動作踩
 
     cin >> move >> alphabat >> number;
 
@@ -88,15 +89,15 @@ void Game::action()
         {
             if (!this->pTable->pArray[i][j].getIsRevealed())
             {
-                if (move == 'e') //Explore.
+                if (move == 'e') //動作踩
                 {
                     if (!this->pTable->pArray[i][j].isMine())
                     {
                         this->pTable->chainReveal(i, j);
                     }
-                    else //This is mine.
+                    else //這是地雷.
                     {
-                        if (numberOfMoves == 0) // First step mercy.
+                        if (numberOfMoves == 0) // 如果第一下踩到地雷，這顆地雷會移到別處。
                         {
                         }
                         else
@@ -106,7 +107,7 @@ void Game::action()
                         }
                     }
                 }
-                else if (move == 'f') //Flag.
+                else if (move == 'f') //如果動作"f"是放旗標
                 {
                     this->pTable->pArray[i][j].flag();
                 }
