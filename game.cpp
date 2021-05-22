@@ -12,7 +12,9 @@ void Game::start()
 {
     this->printInitialMessage();
     this->chooseGameMode();
+    this->newTable();
     this->pTable->printTable();
+
     while (!isGameOver)
     {
         this->action();
@@ -36,52 +38,22 @@ void Game::chooseGameMode()
     int gameMode;
     cin >> gameMode;
     this->gameMode = gameMode;
-
-    //game mode 1, 2, 3.
-    if (this->gameMode == 1 || this->gameMode == 2 || this->gameMode == 3)
-        pTable = new Table(this->gameMode);
-
-    //game mode 4.
-    else if (this->gameMode == 4)
-    {
-        int tableSize, numberOfMines;
-
-        cout << endl;
-
-        do
-        {
-            cout << "enter table size: (9 ~ 20)" << endl;
-            cin >> tableSize;
-        } while (!(tableSize >= 9 && tableSize <= 20));
-
-        do
-        {
-            cout << "Enter number of mine: (1 ~ " << (tableSize - 1) * (tableSize - 1) << ")" << endl;
-            cin >> numberOfMines;
-        } while (numberOfMines < 1 || numberOfMines > (tableSize - 1) * (tableSize - 1));
-
-        pTable = new Table(tableSize, numberOfMines);
-    }
-
-    //game mode 1.
-    else
-        pTable = new Table();
 }
 
 void Game::action()
 {
     char move;
 
-    char alphabat;
+    char alphabet;
     int number;
 
-    cout << "Enter (MOVE, ALPHABAT, NUMBER)" << endl;
+    cout << "Enter (MOVE, ALPHABET, NUMBER)" << endl;
     cout << "(MOVE = [f], Flag or [e], Explore)" << endl;
 
-    cin >> move >> alphabat >> number;
+    cin >> move >> alphabet >> number;
 
     int i = number - 1;
-    int j = int(alphabat) - 97;
+    int j = int(alphabet) - 97;
 
     if ((move == 'e' || move == 'f'))
         if (this->pTable->isValid(i, j))
@@ -118,4 +90,42 @@ void Game::action()
 void Game::gameOver()
 {
     this->isGameOver = true;
+}
+
+void Game::newTable()
+{
+
+    switch (this->gameMode)
+    {
+    case 1:
+    case 2:
+    case 3:
+        pTable = new Table(this->gameMode);
+        break;
+
+    case 4: //Customization.
+        int tableSize, numberOfMines;
+
+        cout << endl;
+
+        do
+        {
+            cout << "enter table size: (9 ~ 20)" << endl;
+            cin >> tableSize;
+        } while (!(tableSize >= 9 && tableSize <= 20));
+
+        do
+        {
+            cout << "Enter number of mine: (1 ~ " << (tableSize - 1) * (tableSize - 1) << ")" << endl;
+            cin >> numberOfMines;
+        } while (numberOfMines < 1 || numberOfMines > (tableSize - 1) * (tableSize - 1));
+
+        pTable = new Table(tableSize, numberOfMines);
+
+        break;
+
+    default:
+        pTable = new Table();
+        break;
+    }
 }

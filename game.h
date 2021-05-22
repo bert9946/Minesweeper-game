@@ -11,11 +11,13 @@ public:
 private:
     Table *pTable;
     bool isGameOver;
+    int gameMode;
+    int numberOfMoves;
+
     void gameOver();
     void printInitialMessage();
-    int gameMode;
     void chooseGameMode();
+    void newTable();
     void action();
-    int numberOfMoves;
 };
 #endif
