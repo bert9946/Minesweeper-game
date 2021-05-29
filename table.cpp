@@ -43,6 +43,7 @@ Table::Table(int tableSize, int numberOfMines)
 
 	newArray();
 }
+
 void Table::newArray()
 {
 
@@ -72,18 +73,27 @@ void Table::plantMines()
 
 void Table::plantNumbers()
 {
-	int r, c, i, j;
-	for (r = 0; r < tableSize; r++)
+
+	for (int r = 0; r < tableSize; r++)
 	{
-		for (c = 0; c < tableSize; c++)
+		for (int c = 0; c < tableSize; c++)
+		{
+			if (!pArray[r][c].isMine())
+				pArray[r][c].setNumber(0);
+		}
+	}
+
+	for (int r = 0; r < tableSize; r++)
+	{
+		for (int c = 0; c < tableSize; c++)
 		{
 
-			if (pArray[r][c].getNumber() == -1) //if this is a mine.
+			if (pArray[r][c].isMine()) //if this is a mine.
 			{
 
-				for (i = r - 1; i <= r + 1; i++)
+				for (int i = r - 1; i <= r + 1; i++)
 				{
-					for (j = c - 1; j <= c + 1; j++)
+					for (int j = c - 1; j <= c + 1; j++)
 					{
 						if (isValid(i, j) && !(pArray[i][j].isMine()))
 							pArray[i][j].numberIncrease();
@@ -200,4 +210,11 @@ void Table::plantOneMine()
 		else
 			continue;
 	}
+}
+
+void Table::replantThisMine(int x, int y)
+{
+	this->pArray[x][y].setNumber(0);
+	this->plantOneMine();
+	this->plantNumbers();
 }

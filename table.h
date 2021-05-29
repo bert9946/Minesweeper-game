@@ -23,6 +23,7 @@ public:
 	~Table();
 	void printTable() const;
 	void revealAllMines();
+	void replantThisMine(int, int);
 	friend class Game;
 };
 #endif

@@ -58,21 +58,7 @@ void Game::action()
             {
                 if (move == 'e') //Explore.
                 {
-                    if (!this->pTable->pArray[i][j].isMine())
-                    {
-                        this->pTable->chainReveal(i, j);
-                    }
-                    else //This is mine.
-                    {
-                        if (numberOfMoves == 0) // First step mercy.
-                        {
-                        }
-                        else
-                        {
-                            this->gameOver();
-                            this->pTable->revealAllMines();
-                        }
-                    }
+                    this->explore(i, j);
                 }
                 else if (move == 'f') //Flag.
                 {
@@ -138,4 +124,25 @@ void Game::newTable()
 bool Game::isValidMove(char move, char alphabet, int number)
 {
     return !((move != 'e' && move != 'f') || (int(alphabet) - 96 < 1 || int(alphabet) - 96 > this->pTable->tableSize) || (number < 1 || number > this->pTable->tableSize));
+}
+
+void Game::explore(int i, int j)
+{
+    if (!this->pTable->pArray[i][j].isMine())
+    {
+        this->pTable->chainReveal(i, j);
+    }
+    else //This is mine.
+    {
+        if (numberOfMoves == 0) // First step mercy.
+        {
+            this->pTable->replantThisMine(i, j);
+            this->explore(i, j);
+        }
+        else
+        {
+            this->gameOver();
+            this->pTable->revealAllMines();
+        }
+    }
 }

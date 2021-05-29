@@ -20,5 +20,6 @@ private:
     void newTable();
     void action();
     bool isValidMove(char, char, int);
+    void explore(int, int);
 };
 #endif
