@@ -19,5 +19,6 @@ private:
     void chooseGameMode();
     void newTable();
     void action();
+    bool isValidMove(char, char, int);
 };
 #endif

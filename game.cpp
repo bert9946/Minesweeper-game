@@ -15,13 +15,7 @@ void Game::start()
     this->newTable();
     this->pTable->printTable();
 
-    while (!isGameOver)
-    {
-        this->action();
-        if (this->isGameOver)
-            cout << "GAME OVER!";
-        this->pTable->printTable();
-    }
+    this->action();
 }
 
 void Game::printInitialMessage()
@@ -44,20 +38,22 @@ void Game::action()
 {
     char move;
 
+    //Coordinates
     char alphabet;
     int number;
 
-    cout << "Enter (MOVE, ALPHABET, NUMBER)" << endl;
-    cout << "(MOVE = [f], Flag or [e], Explore)" << endl;
+    while (!isGameOver)
+    {
+        cout << "Enter (MOVE, ALPHABET, NUMBER)" << endl;
+        cout << "(MOVE = [f], Flag or [e], Explore)" << endl;
 
-    cin >> move >> alphabet >> number;
+        cin >> move >> alphabet >> number;
 
-    int i = number - 1;
-    int j = int(alphabet) - 97;
-
-    if ((move == 'e' || move == 'f'))
-        if (this->pTable->isValid(i, j))
+        if (isValidMove(move, alphabet, number))
         {
+            int i = number - 1;
+            int j = int(alphabet) - 97;
+
             if (!this->pTable->pArray[i][j].getIsRevealed())
             {
                 if (move == 'e') //Explore.
@@ -84,7 +80,16 @@ void Game::action()
                 }
                 numberOfMoves++;
             }
+            this->pTable->printTable();
         }
+        else
+        {
+            cout << "Invalid move!" << endl;
+            continue;
+        }
+    }
+    cout << "GAME OVER!";
+    this->pTable->printTable();
 }
 
 void Game::gameOver()
@@ -128,4 +133,9 @@ void Game::newTable()
         pTable = new Table();
         break;
     }
+}
+
+bool Game::isValidMove(char move, char alphabet, int number)
+{
+    return !((move != 'e' && move != 'f') || (int(alphabet) - 96 < 1 || int(alphabet) - 96 > this->pTable->tableSize) || (number < 1 || number > this->pTable->tableSize));
 }
