@@ -107,6 +107,7 @@ void Table::plantNumbers()
 void Table::printTable() const
 {
 	cout << endl;
+
 	//print column index(abc...).
 	for (int i = 0; i < tableSize; i++)
 	{
@@ -154,6 +155,7 @@ void Table::printTable() const
 	cout << endl;
 }
 
+//Whether the coordinates is valid in the table.
 bool Table::isValid(int i, int j) const
 {
 	return (i >= 0 && i <= tableSize && j >= 0 && j <= tableSize);
@@ -170,6 +172,8 @@ void Table::revealAllMines()
 		}
 	}
 }
+
+//If the block has no surrounding mine, reveal all of the surrounding block.
 void Table::chainReveal(int i, int j)
 {
 	this->pArray[i][j].reveal();
@@ -182,7 +186,6 @@ void Table::chainReveal(int i, int j)
 				if (this->isValid(x, y) && !(x == i && y == j))
 					if (!this->pArray[x][y].getIsRevealed())
 					{
-						this->pArray[x][y].reveal();
 						this->chainReveal(x, y);
 					}
 			}
@@ -192,6 +195,7 @@ void Table::chainReveal(int i, int j)
 
 void Table::plantOneMine()
 {
+	//Random generator initialize.
 	random_device rd;
 	mt19937 generator(rd());
 	uniform_int_distribution<int> unif(0, tableSize * tableSize - 1);
@@ -202,6 +206,7 @@ void Table::plantOneMine()
 		int r = unif(generator);
 		int c = r % tableSize;
 		r /= tableSize;
+
 		if (!pArray[r][c].isMine())
 		{
 			pArray[r][c].setNumber(-1); //plant mine.
