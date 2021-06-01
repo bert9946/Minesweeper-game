@@ -5,6 +5,16 @@
 const int MAXTABLESIZE = 21;
 class Table
 {
+public:
+	Table();
+	Table(int);
+	Table(int tableSize, int numberOfMines);
+	~Table();
+	void printTable() const;
+	void revealAllMines();
+	void replantThisMine(int, int);
+	friend class Game;
+
 private:
 	int tableSize;
 	int numberOfMines;
@@ -15,15 +25,5 @@ private:
 	bool isValid(int, int) const;
 	void newArray();
 	void chainReveal(int, int);
-
-public:
-	Table();
-	Table(int);
-	Table(int tableSize, int numberOfMines);
-	~Table();
-	void printTable() const;
-	void revealAllMines();
-	void replantThisMine(int, int);
-	friend class Game;
 };
 #endif

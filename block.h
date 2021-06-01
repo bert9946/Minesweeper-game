@@ -12,11 +12,13 @@ public:
 	bool isMine() const;
 	void reveal();
 	void flag();
+	static int getNumberOfFlag();
 	friend class game;
 
 private:
 	int number; //number of surrounding mines. -1 means this is mine.
 	bool isRevealed;
 	bool isFlagged;
+	static int numberOfFlag;
 };
 #endif

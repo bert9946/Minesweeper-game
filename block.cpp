@@ -1,4 +1,7 @@
 #include "block.h"
+
+int Block::numberOfFlag = 0;
+
 Block::Block()
 {
 	this->number = 0;
@@ -43,8 +46,22 @@ void Block::reveal()
 
 void Block::flag()
 {
-	if (!this->isFlagged)
-		this->isFlagged = true;
-	else
-		this->isFlagged = false;
+	if (!this->isRevealed)
+	{
+		if (!this->isFlagged)
+		{
+			this->isFlagged = true;
+			numberOfFlag++;
+		}
+		else
+		{
+			this->isFlagged = false;
+			numberOfFlag--;
+		}
+	}
+}
+
+int Block::getNumberOfFlag()
+{
+	return numberOfFlag;
 }
