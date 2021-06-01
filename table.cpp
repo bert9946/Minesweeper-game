@@ -154,7 +154,7 @@ void Table::printTable() const
 		cout << endl;
 	}
 	cout << endl;
-	cout << "$: " << this->pArray[1][1].getNumberOfFlag() << '/' << this->numberOfMines << endl;
+	cout << "$: " << Block::getNumberOfFlag() << '/' << this->numberOfMines << endl;
 }
 
 //Whether the coordinates is valid in the table.
